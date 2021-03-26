@@ -1,13 +1,5 @@
 local PlayerData = {}
 local variable = false
-ESX = nil
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-end)
 
 RegisterNetEvent('infoped:open')
 AddEventHandler('infoped:open', function(title, filename)
@@ -77,9 +69,9 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local playerCoords = GetEntityCoords(PlayerPedId())
     for k, v in pairs (Config.Infos) do
-      local distance = GetDistanceBetweenCoords(playerCoords, v.coords.x, v.coords.y, v.coords.z, true)
+      local distance = #(playerCoords - vector3(v.coords.x, v.coords.y, v.coords.z))
       if distance <= 1.5 then
-        ESX.ShowHelpNotification('[~y~E~s~] Information')
+        showHelpNotification('[~y~E~s~] Information')
         if IsControlJustReleased(1, 51) then
           TriggerEvent('infoped:open', v.name, v.filename)
         end
@@ -87,3 +79,9 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+function showHelpNotification(text)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
+end
