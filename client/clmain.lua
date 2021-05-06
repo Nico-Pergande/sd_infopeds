@@ -32,8 +32,8 @@ end)
 
 Citizen.CreateThread(function()
   for k, v in pairs(Config.Infos) do
-    local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
-    if v.setblip then
+    if v.setblip == "true" then
+			local blip = AddBlipForCoord(v.coords.x, v.coords.y, v.coords.z)
       SetBlipSprite(blip, 407)
       SetBlipScale(blip, 0.7)
       SetBlipColour(blip, 30)
